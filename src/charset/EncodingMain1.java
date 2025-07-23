@@ -1,7 +1,6 @@
 package charset;
 
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import static java.nio.charset.StandardCharsets.*;
@@ -22,6 +21,10 @@ public class EncodingMain1 {
 
 		System.out.println("== 한글 지원 ==");
 		encoding("가", EUC_KR);
+		encoding("가", UTF_8);
+		encoding("가", UTF_16BE);
+		encoding("가", UTF_16LE);
+
 	}
 
 	
