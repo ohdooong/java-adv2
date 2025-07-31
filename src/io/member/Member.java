@@ -1,8 +1,9 @@
 package io.member;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Member {
+public class Member implements Serializable {
     private String id;
     private String name;
     private Integer age;
