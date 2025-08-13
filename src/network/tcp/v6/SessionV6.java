@@ -43,7 +43,7 @@ public class SessionV6 implements Runnable {
                 log("server -> client: " + toSend);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log(e.getMessage());
         } finally {
             // 세션매니저에서 세션 제거
             sessionManager.remove(this);
