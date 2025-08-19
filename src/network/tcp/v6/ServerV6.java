@@ -17,7 +17,6 @@ public class ServerV6 {
         ServerSocket serverSocket = new ServerSocket(PORT);
         log("서버 소켓 시작 - 리스닝 포트: " + PORT);
 
-
         // ShutdownHook 등록
         ShutDownHook shutDownHook = new ShutDownHook(serverSocket, sessionManager);
         Runtime.getRuntime().addShutdownHook(new Thread(shutDownHook, "shutdown"));
