@@ -20,18 +20,30 @@ public class Client {
             DataInputStream input = new DataInputStream(socket.getInputStream());
             DataOutputStream output = new DataOutputStream(socket.getOutputStream());) {
 
+            log("소켓 연결: " + socket);
+
             Scanner scanner = new Scanner(System.in);
 
             while (true) {
+                System.out.print("전송 문자: ");
+                String toSend = scanner.nextLine();
 
+                // 서버에게 문자 보내기
+                output.writeUTF(toSend);
+                log("client -> server: " + toSend);
+
+                if (toSend.equals("/exit")) {
+                    break;
+                }
+
+                // 서버로부터 문자 받기
+                String received = input.readUTF();
+                log("server -> client: " + received);
             }
-
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 }

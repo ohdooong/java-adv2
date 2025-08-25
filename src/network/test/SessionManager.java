@@ -16,6 +16,13 @@ public class SessionManager {
     public synchronized List<Session> getSessions() {
         return sessions;
     }
+    public synchronized String getSessionsList() {
+        StringBuilder sb = new StringBuilder();
+        for (Session session : sessions) {
+            sb.append(session.toString()).append("\n");
+        }
+        return sb.toString();
+    }
 
     public synchronized void closeAll() {
         for (Session session : sessions) {
