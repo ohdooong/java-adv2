@@ -6,6 +6,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
 import static util.MyLogger.log;
@@ -58,23 +60,27 @@ public class Session implements Runnable {
     }
 
     private void processMessage(String message) throws IOException {
-        String[] splitMessage = message.split("|");
 
+        int regIndex = message.indexOf("|");
+        if (regIndex == -1) {
+            sendMessage("올바른 형식이 아닙니다.");
+        }
 
+        String command = message.substring(0, regIndex);
 
-        String command = splitMessage[0];
-
+        log("command: " + command);
 
         switch(command) {
             case "/join", "/change" -> {
-                this.name = splitMessage[1];
+                this.name = message.substring(regIndex + 1);
+                sendMessage("당신의 이름은: " +this.name+"입니다.");
             }
             case "/message" -> {
                 if (checkName()) {
                     sendMessage("이름을 입력해주세요.");
                     return;
                 }
-                sendMessage(splitMessage[1]);
+                sendEveryOne(message.substring(regIndex + 1));
             }
             case "/users" -> {
                 if (checkName()) {
@@ -96,6 +102,14 @@ public class Session implements Runnable {
     private void sendMessage(String message) throws IOException {
         output.writeUTF(message);
         log("server -> client: " + message);
+    }
+
+    private void sendEveryOne(String message) throws IOException {
+        List<Session> sessions = sessionManager.getSessions();
+        log(Arrays.toString(sessions.toArray()));
+        for (Session session : sessions) {
+            session.sendMessage(message);
+        }
     }
 
     private boolean checkName() {
