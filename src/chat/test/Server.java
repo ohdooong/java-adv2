@@ -1,6 +1,4 @@
-package network.test;
-
-import network.tcp.v6.SessionManagerV6;
+package chat.test;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,6 +1,6 @@
-package network.test;
+package chat.test;
 
-import network.test.util.SocketCloseUtil;
+import chat.test.util.SocketCloseUtil;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.PatternSyntaxException;
 
 import static util.MyLogger.log;
 

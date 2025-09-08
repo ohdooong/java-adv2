@@ -1,4 +1,4 @@
-package network.test.util;
+package chat.test.util;
 
 import java.io.IOException;
 import java.io.InputStream;
