@@ -27,5 +27,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-java-advance2.iml
-temp
+.idea
+java-adv2.iml

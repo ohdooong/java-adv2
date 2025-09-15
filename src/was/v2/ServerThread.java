@@ -1,37 +1,39 @@
-package was.v1;
+package was.v2;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static util.MyLogger.log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import network.tcp.autocloseable.ResourceV1;
 
-import static java.nio.charset.StandardCharsets.*;
-import static util.MyLogger.log;
+public class ServerThread implements Runnable{
 
-public class HttpServerV1 {
+    private final Socket socket;
+    private final BufferedReader reader;
+    private final PrintWriter writer;
 
-    private final int port;
-
-    public HttpServerV1(int port) {
-        this.port = port;
+    public ServerThread(Socket socket) throws IOException {
+        this.socket = socket;
+        this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), UTF_8));
+        this.writer = new PrintWriter(socket.getOutputStream(), false, UTF_8);
     }
 
-    public void start() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(port);
-        while (true) {
-            Socket socket = serverSocket.accept();
-            process(socket);
+    @Override
+    public void run() {
+        try {
+            process();
+        } catch (IOException e) {
+            log(e);
         }
     }
 
-    private void process(Socket socket) throws IOException {
-        try (socket;
-             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), UTF_8));
-             PrintWriter writer = new PrintWriter(socket.getOutputStream(), false, UTF_8)
+    private void process() throws IOException {
+        try (this.socket;
+            this.reader;
+            this.writer
         ) {
             String requestString = requestToString(reader);
             if (requestString.contains("/favicon.ico")) {
@@ -47,7 +49,6 @@ public class HttpServerV1 {
             responseToClient(writer);
         }
     }
-
 
     private static void responseToClient(PrintWriter writer) {
         String body = "<h1>Hello World!</h1>";
@@ -84,7 +85,6 @@ public class HttpServerV1 {
             Thread.sleep(mills);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-
         }
     }
 
