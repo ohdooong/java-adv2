@@ -12,6 +12,14 @@ public class CommandManagerV1 implements CommandManager {
 
     @Override
     public void execute(String totalMessage, Session session) throws IOException {
+        if (totalMessage.startsWith("/exit")) {
+            throw new IOException("exit");
+        }
 
+
+
+        sessionManager.sendAll(totalMessage);
     }
+
+
 }
