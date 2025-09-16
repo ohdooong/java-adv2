@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import network.tcp.autocloseable.ResourceV1;
 
 import static java.nio.charset.StandardCharsets.*;
 import static util.MyLogger.log;
