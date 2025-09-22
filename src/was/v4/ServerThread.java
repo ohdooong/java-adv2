@@ -61,54 +61,39 @@ public class ServerThread implements Runnable{
             } else if (request.getPath().equals("GET /search")) {
                 search(request, response, requestString);
             } else if (request.getPath().equals("GET / ")) {
-                home(writer);
+                home(response);
             } else {
-                notFound(writer);
+                notFound(response);
             }
-
             response.flush();
-
-
-            //responseToClient(writer);
         }
     }
 
-    private void home(PrintWriter writer) {
-        writer.println("HTTP/1.1 200 OK");
-        writer.println("Content-Type: text/html; charset=utf-8");
-        writer.println();
-        writer.println("<h1>Home page</h1>");
-        writer.println("<ul>");
-        writer.println("<li><a href=\"/site1\">site1</a></li>");
-        writer.println("<li><a href=\"/site2\">site2</a></li>");
-        writer.println("<li><a href=\"/search?q=hello\">검색</a></li>");
+    private void home(HttpResponse response) {
+        response.writeBody("<h1>Home page</h1>");
+        response.writeBody("<ul>");
+        response.writeBody("<li><a href=\"/site1\">site1</a></li>");
+        response.writeBody("<li><a href=\"/site2\">site2</a></li>");
+        response.writeBody("<li><a href=\"/search?q=hello\">검색</a></li>");
 
-        writer.println("</ul>");
-        writer.println("<button>안녕하세요</button>");
-        writer.flush();
+        response.writeBody("</ul>");
+        response.writeBody("<button>안녕하세요</button>");
     }
 
-    private void notFound(PrintWriter writer) {
-        writer.println("HTTP/1.1 404 Not Found");
-        writer.println("Content-Type: text/html; charset=utf-8");
-        writer.println();
-        writer.println("<h1>404 Not Found</h1>");
-        writer.flush();
+    private void notFound(HttpResponse response) {
+        response.setStatusCode(404);
+        response.writeBody("<h1>404 페이지를 찾을 수 없습니다.</h1>");
     }
 
 
     private void search(HttpRequest request,HttpResponse response, String requestString) {
-//        int startIndex = requestString.indexOf("q=");
-//        int endIndex = requestString.indexOf(" ", startIndex + 2);
-//        String query = requestString.substring(startIndex + 2, endIndex);
-//        String decode = URLDecoder.decode(query, UTF_8);
 
-        writer.println("HTTP/1.1 200 OK");
-        writer.println("Content-Type: text/html; charset=utf-8");
-        writer.println();
-        writer.println("<li>" + query + "</li>");
-        writer.println("<li>" + decode + "</li>");
+        String query = request.getQueryParameter("q");
 
+        response.writeBody("<h1>Search</h1>");
+        response.writeBody("<ul>");
+        response.writeBody("<li>" + query + "</li>");
+        response.writeBody("</ul>");
     }
 
     private void site2(HttpResponse response) {
