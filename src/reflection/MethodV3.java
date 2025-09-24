@@ -9,12 +9,12 @@ import java.util.Scanner;
 public class MethodV3 {
     public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("호출 메서드: ");
         String methodName = scanner.nextLine();
-        System.out.println("호출 메서드" + scanner.nextLine());
 
-        System.out.println("숫자1: ");
+        System.out.print("숫자1: ");
         int a = scanner.nextInt();
-        System.out.println("숫자2 : ");
+        System.out.print("숫자2 : ");
         int b = scanner.nextInt();
 
         Calculator calculator = new Calculator();
